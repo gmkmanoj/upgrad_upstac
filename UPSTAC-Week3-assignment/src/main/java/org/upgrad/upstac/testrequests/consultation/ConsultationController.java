@@ -42,12 +42,14 @@ public class ConsultationController {
     @GetMapping("/in-queue")
     @PreAuthorize("hasAnyRole('DOCTOR')")
     public List<TestRequest> getForConsultations()  {
+		//This method will get the list of test requests having status as 'LAB_TEST_COMPLETED'
         return testRequestQueryService.findBy(RequestStatus.LAB_TEST_COMPLETED);
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('DOCTOR')")
     public List<TestRequest> getForDoctor()  {
+		//This method will retrun the list of test requests assigned to current doctor
         User doctor = userLoggedInService.getLoggedInUser();
         return testRequestQueryService.findByDoctor(doctor);
     }
@@ -55,6 +57,7 @@ public class ConsultationController {
     @PreAuthorize("hasAnyRole('DOCTOR')")
     @PutMapping("/assign/{id}")
     public TestRequest assignForConsultation(@PathVariable Long id) {
+		//This method will assign a particular test request to the current doctor
         try {
             User doctor = userLoggedInService.getLoggedInUser();
             return testRequestUpdateService.assignForConsultation(id,doctor);
@@ -66,6 +69,7 @@ public class ConsultationController {
     @PreAuthorize("hasAnyRole('DOCTOR')")
     @PutMapping("/update/{id}")
     public TestRequest updateConsultation(@PathVariable Long id,@RequestBody CreateConsultationRequest testResult) {
+		//This method will update the result of the current test request id with test doctor comments
         try {
             User doctor = userLoggedInService.getLoggedInUser();
             return testRequestUpdateService.updateConsultation(id,testResult,doctor);

@@ -46,7 +46,9 @@ public class LabRequestController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('TESTER')")
+		
     public List<TestRequest> getForTester()  {
+	    // The below Method will return the list of test requests assigned to the current tester	
         User tester = userLoggedInService.getLoggedInUser();
         return testRequestQueryService.findByTester(tester);
     }
